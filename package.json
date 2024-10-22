@@ -17,12 +17,18 @@
     "license": "MIT",
     "keywords": [],
     "dependencies": {
+        "@emotion/react": "^11.13.3",
+        "@emotion/styled": "^11.13.0",
+        "@mui/icons-material": "^6.1.4",
+        "@mui/material": "^6.1.4",
+        "@mui/styled-engine-sc": "^6.1.4",
         "keycloakify": "^11.3.9",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "styled-components": "^6.1.13",
+        "tss-react": "^4.9.13"
     },
     "devDependencies": {
-        "storybook": "^8.1.10",
         "@storybook/react": "^8.1.10",
         "@storybook/react-vite": "^8.1.10",
         "@types/react": "^18.2.43",
@@ -35,6 +41,7 @@
         "eslint-plugin-react-refresh": "^0.4.5",
         "eslint-plugin-storybook": "^0.8.0",
         "prettier": "3.3.1",
+        "storybook": "^8.1.10",
         "typescript": "^5.2.2",
         "vite": "^5.0.8"
     },
