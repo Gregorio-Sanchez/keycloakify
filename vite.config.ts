@@ -6,6 +6,7 @@ import { keycloakify } from "keycloakify/vite-plugin";
 export default defineConfig({
     plugins: [
         react(),
+
         keycloakify({
             accountThemeImplementation: "none",
             keycloakVersionTargets: {
@@ -13,5 +14,11 @@ export default defineConfig({
                 "all-other-versions": false
             }
         })
-    ]
+    ],
+    server: {
+        host: true,
+        port: 30101
+    },
+
+
 });

@@ -7,7 +7,7 @@ import { getKcClsx, type KcClsx } from "keycloakify/login/lib/kcClsx";
 import type { KcContext } from "../KcContext";
 import type { I18n } from "../i18n";
 import { Button } from "@mui/material";
-import "./login.css";
+// import "./login.css";
 
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;
@@ -94,8 +94,8 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
                                         {!realm.loginWithEmailAllowed
                                             ? msg("username")
                                             : !realm.registrationEmailAsUsername
-                                              ? msg("usernameOrEmail")
-                                              : msg("email")}
+                                                ? msg("usernameOrEmail")
+                                                : msg("email")}
                                     </label>
                                     <input
                                         tabIndex={2}
