@@ -10,7 +10,7 @@ export default defineConfig({
         keycloakify({
             accountThemeImplementation: "none",
             keycloakVersionTargets: {
-                "22-to-25": "my-theme-produccion.jar",
+                "22-to-25": "produccion.jar",
                 "all-other-versions": false
             }
         })
