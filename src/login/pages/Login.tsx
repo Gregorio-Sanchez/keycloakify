@@ -36,14 +36,12 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
             headerNode={msg("loginAccountTitle")}
             displayInfo={realm.password && realm.registrationAllowed && !registrationDisabled}
             infoNode={
-
                 <Typography variant="body1" component="div">
                     {msg("noAccount")}{" "}
                     <Link tabIndex={8} href={url.registrationUrl}>
                         {msg("doRegister")}
                     </Link>
                 </Typography>
-
             }
             socialProvidersNode={
                 <>
