@@ -7,7 +7,7 @@ import DefaultPage from "keycloakify/login/DefaultPage";
 import Template from "./Template";
 import { tss } from "tss-react/mui";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import background from "./assets/keycloak-bg.png"
+import background from "./assets/test-bg_1.png"
 
 const UserProfileFormFields = lazy(
     () => import("keycloakify/login/UserProfileFormFields")
@@ -28,24 +28,12 @@ const theme = createTheme({
         },
         background: {
             default: '#eeeeee',
-            //   paper: grey[300] // Fondo de los componentes Paper en el tema claro
         },
 
     },
     typography: {
         fontFamily: "Geist"
     }
-    // palette: {
-    //     mode: "dark",
-    //     background: {
-    //         default: "#000000",
-    //         paper: "#111111"
-    //     },
-    //     text: {
-    //         primary: "#EDEDED",
-    //         secondary: "#B0B0B0"
-    //     }
-    // },
 });
 
 export default function KcPage(props: { kcContext: KcContext }) {
@@ -105,9 +93,5 @@ const useStyles = tss.create(({ theme }) => ({
         backgroundPosition: "center center",
         backgroundAttachment: "fixed",
         backgroundSize: "cover"
-    },
-    // kcFormCardClass: {
-    //     background: "grey",
-    //     maxWidth: "500px"
-    // }
+    }
 } satisfies { [key in ClassKey]?: unknown }));
