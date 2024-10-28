@@ -7,6 +7,8 @@ import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import { useInitialize } from "keycloakify/login/Template.useInitialize";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import { useStyles } from "tss-react/mui";
+import { Alert, Typography } from "@mui/material";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -29,7 +31,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { msg, msgStr, currentLanguage, enabledLanguages } = i18n;
 
-    const { realm, auth, url, message, isAppInitiatedAction } = kcContext;
+    const { auth, url, message, isAppInitiatedAction } = kcContext;
 
     useEffect(() => {
         document.title = documentTitle ?? msgStr("loginTitle", kcContext.realm.displayName);
@@ -47,18 +49,42 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
 
     const { isReadyToRender } = useInitialize({ kcContext, doUseDefaultCss });
 
+    const { theme, css, cx } = useStyles();
+
     if (!isReadyToRender) {
         return null;
     }
 
+
     return (
-        <div className={kcClsx("kcLoginClass")}>
-            <div id="kc-header" className={kcClsx("kcHeaderClass")}>
+        <div
+            className={
+                cx(
+                    kcClsx("kcLoginClass"),
+                    css({
+                        height: "100vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    })
+                )
+            }
+        >
+            {/* <div id="kc-header" className={kcClsx("kcHeaderClass")}>
                 <div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
                     {msg("loginTitleHtml", realm.displayNameHtml)}
                 </div>
-            </div>
-            <div className={kcClsx("kcFormCardClass")}>
+            </div> */}
+            {/* <div className={kcClsx("kcFormCardClass")}> */}
+            <div
+                className={css({
+                    backgroundColor: "rgba(254, 254, 254, 0.89)",
+                    padding: theme.spacing(5),
+                    borderRadius: "15px",
+                    boxShadow: "0px 8px 19px rgba(0, 0, 0, 0.9)",
+
+                })}
+            >
                 <header className={kcClsx("kcFormHeaderClass")}>
                     {enabledLanguages.length > 1 && (
                         <div className={kcClsx("kcLocaleMainClass")} id="kc-locale">
@@ -96,7 +122,13 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     )}
                     {(() => {
                         const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-                            <h1 id="kc-page-title">{headerNode}</h1>
+                            <Typography
+                                variant="h1"
+                                id="kc-page-title"
+                            // sx={{ pb: 1 }}
+                            >
+                                {headerNode}
+                            </Typography>
                         ) : (
                             <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
                                 <label id="kc-attempted-username">{auth.attemptedUsername}</label>
@@ -130,26 +162,14 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     <div id="kc-content-wrapper">
                         {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
                         {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
-                            <div
-                                className={clsx(
-                                    `alert-${message.type}`,
-                                    kcClsx("kcAlertClass"),
-                                    `pf-m-${message?.type === "error" ? "danger" : message.type}`
-                                )}
-                            >
-                                <div className="pf-c-alert__icon">
-                                    {message.type === "success" && <span className={kcClsx("kcFeedbackSuccessIcon")}></span>}
-                                    {message.type === "warning" && <span className={kcClsx("kcFeedbackWarningIcon")}></span>}
-                                    {message.type === "error" && <span className={kcClsx("kcFeedbackErrorIcon")}></span>}
-                                    {message.type === "info" && <span className={kcClsx("kcFeedbackInfoIcon")}></span>}
-                                </div>
+                            <Alert severity={message.type} sx={{ mt: 2, mb: 2 }} >
                                 <span
                                     className={kcClsx("kcAlertTitleClass")}
                                     dangerouslySetInnerHTML={{
                                         __html: kcSanitize(message.summary)
                                     }}
                                 />
-                            </div>
+                            </Alert>
                         )}
                         {children}
                         {auth !== undefined && auth.showTryAnotherWayLink && (
@@ -171,8 +191,17 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         )}
                         {socialProvidersNode}
                         {displayInfo && (
-                            <div id="kc-info" className={kcClsx("kcSignUpClass")}>
-                                <div id="kc-info-wrapper" className={kcClsx("kcInfoAreaWrapperClass")}>
+                            <div
+                                className={
+                                    css({
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        marginTop: theme.spacing(3)
+                                    })
+                                }
+                            >
+                                <div  >
                                     {infoNode}
                                 </div>
                             </div>

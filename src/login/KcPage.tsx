@@ -1,3 +1,4 @@
+import "./main.css";
 import { Suspense, lazy } from "react";
 import type { ClassKey } from "keycloakify/login";
 import type { KcContext } from "./KcContext";
@@ -18,16 +19,33 @@ const doMakeUserConfirmPassword = true;
 
 const theme = createTheme({
     palette: {
-        mode: "dark",
-        background: {
-            default: "#000000",
-            paper: "#111111"
+        primary: {
+            main: '#ffcd00',
+            light: '#fff0b2'
         },
-        text: {
-            primary: "#EDEDED",
-            secondary: "#A1A1A1"
-        }
+        secondary: {
+            main: '#3f51b5'
+        },
+        background: {
+            default: '#eeeeee',
+            //   paper: grey[300] // Fondo de los componentes Paper en el tema claro
+        },
+
+    },
+    typography: {
+        fontFamily: "Geist"
     }
+    // palette: {
+    //     mode: "dark",
+    //     background: {
+    //         default: "#000000",
+    //         paper: "#111111"
+    //     },
+    //     text: {
+    //         primary: "#EDEDED",
+    //         secondary: "#B0B0B0"
+    //     }
+    // },
 });
 
 export default function KcPage(props: { kcContext: KcContext }) {
@@ -87,5 +105,9 @@ const useStyles = tss.create(({ theme }) => ({
         backgroundPosition: "center center",
         backgroundAttachment: "fixed",
         backgroundSize: "cover"
-    }
+    },
+    // kcFormCardClass: {
+    //     background: "grey",
+    //     maxWidth: "500px"
+    // }
 } satisfies { [key in ClassKey]?: unknown }));
