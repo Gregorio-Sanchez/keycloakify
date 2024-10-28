@@ -95,7 +95,7 @@ function KcPageContextualized(props: { kcContext: KcContext }) {
 const useStyles = tss.create(({ theme }) => ({
     kcHtmlClass: {
         ":root": {
-            colorScheme: "dark"
+            colorScheme: "light"
         }
     },
     kcBodyClass: {

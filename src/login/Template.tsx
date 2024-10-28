@@ -55,7 +55,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         return null;
     }
 
-
     return (
         <div
             className={
@@ -154,7 +153,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                                 </div>
                             );
                         }
-
                         return node;
                     })()}
                 </header>
