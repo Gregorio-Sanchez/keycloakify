@@ -9,6 +9,7 @@ import { tss } from "tss-react/mui";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import background from "./assets/test-bg_1.png"
 
+
 const UserProfileFormFields = lazy(
     () => import("keycloakify/login/UserProfileFormFields")
 );
@@ -93,5 +94,9 @@ const useStyles = tss.create(({ theme }) => ({
         backgroundPosition: "center center",
         backgroundAttachment: "fixed",
         backgroundSize: "cover"
-    }
+    },
+    // kcFormCardClass: {
+    //     background: "grey",
+    //     maxWidth: "500px"
+    // }
 } satisfies { [key in ClassKey]?: unknown }));
