@@ -9,6 +9,7 @@ export default defineConfig({
 
         keycloakify({
             accountThemeImplementation: "none",
+            themeName: ["hefame-tst", "hefame-pro"],
             keycloakVersionTargets: {
                 "22-to-25": false,
                 "all-other-versions": "my-theme.jar"

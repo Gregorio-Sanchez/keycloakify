@@ -58,7 +58,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         return null;
     }
 
-    const isTestEnvironment = /tst|test/i.test(realm.name);
+    const isTestEnvironment = kcContext.themeName === "hefame-tst";
 
     const handleLanguageChange = (e: SelectChangeEvent<string>) => {
         const lang = enabledLanguages.find(l => l.languageTag === e.target.value);
