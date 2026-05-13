@@ -10,8 +10,8 @@ export default defineConfig({
         keycloakify({
             accountThemeImplementation: "none",
             keycloakVersionTargets: {
-                "22-to-25": "my-theme.jar",
-                "all-other-versions": false
+                "22-to-25": false,
+                "all-other-versions": "my-theme.jar"
             }
         })
     ],

@@ -382,3 +382,34 @@ export const Spanish: Story = {
         />
     )
 };
+
+export const TestEnvironment: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                realm: { name: "hefame-tst", displayName: "Hefame TST" }
+            }}
+        />
+    )
+};
+
+export const AdminConsole: Story = {
+    render: () => (
+        <KcPageStory
+            kcContext={{
+                realm: {
+                    name: "master",
+                    displayName: "Keycloak Ext. Hefame",
+                    displayNameHtml: "Keycloak Ext. Hefame",
+                    registrationAllowed: false,
+                    rememberMe: false,
+                    resetPasswordAllowed: true
+                },
+                social: { displayInfo: false, providers: [] },
+                url: {
+                    loginResetCredentialsUrl: "#"
+                }
+            }}
+        />
+    )
+};

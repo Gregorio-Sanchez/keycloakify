@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { clsx } from "keycloakify/tools/clsx";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
 import type { TemplateProps } from "keycloakify/login/TemplateProps";
 import { getKcClsx } from "keycloakify/login/lib/kcClsx";
@@ -7,6 +6,16 @@ import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import { useInitialize } from "keycloakify/login/Template.useInitialize";
 import type { I18n } from "./i18n";
 import type { KcContext } from "./KcContext";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
+import Select, { type SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
     const {
@@ -26,9 +35,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
     } = props;
 
     const { kcClsx } = getKcClsx({ doUseDefaultCss, classes });
-
     const { msg, msgStr, currentLanguage, enabledLanguages } = i18n;
-
     const { realm, auth, url, message, isAppInitiatedAction } = kcContext;
 
     useEffect(() => {
@@ -51,135 +58,186 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         return null;
     }
 
+    const isTestEnvironment = /tst|test/i.test(realm.name);
+
+    const handleLanguageChange = (e: SelectChangeEvent<string>) => {
+        const lang = enabledLanguages.find(l => l.languageTag === e.target.value);
+        if (lang) window.location.href = lang.href;
+    };
+
     return (
-        <div className={kcClsx("kcLoginClass")}>
-            <div id="kc-header" className={kcClsx("kcHeaderClass")}>
-                <div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
-                    {msg("loginTitleHtml", realm.displayNameHtml)}
-                </div>
-            </div>
-            <div className={kcClsx("kcFormCardClass")}>
-                <header className={kcClsx("kcFormHeaderClass")}>
-                    {enabledLanguages.length > 1 && (
-                        <div className={kcClsx("kcLocaleMainClass")} id="kc-locale">
-                            <div id="kc-locale-wrapper" className={kcClsx("kcLocaleWrapperClass")}>
-                                <div id="kc-locale-dropdown" className={clsx("menu-button-links", kcClsx("kcLocaleDropDownClass"))}>
-                                    <button
-                                        tabIndex={1}
-                                        id="kc-current-locale-link"
-                                        aria-label={msgStr("languages")}
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        aria-controls="language-switch1"
-                                    >
-                                        {currentLanguage.label}
-                                    </button>
-                                    <ul
-                                        role="menu"
-                                        tabIndex={-1}
-                                        aria-labelledby="kc-current-locale-link"
-                                        aria-activedescendant=""
-                                        id="language-switch1"
-                                        className={kcClsx("kcLocaleListClass")}
-                                    >
-                                        {enabledLanguages.map(({ languageTag, label, href }, i) => (
-                                            <li key={languageTag} className={kcClsx("kcLocaleListItemClass")} role="none">
-                                                <a role="menuitem" id={`language-${i + 1}`} className={kcClsx("kcLocaleItemClass")} href={href}>
-                                                    {label}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {(() => {
-                        const node = !(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
-                            <h1 id="kc-page-title">{headerNode}</h1>
-                        ) : (
-                            <div id="kc-username" className={kcClsx("kcFormGroupClass")}>
-                                <label id="kc-attempted-username">{auth.attemptedUsername}</label>
-                                <a id="reset-login" href={url.loginRestartFlowUrl} aria-label={msgStr("restartLoginTooltip")}>
-                                    <div className="kc-login-tooltip">
-                                        <i className={kcClsx("kcResetFlowIcon")}></i>
-                                        <span className="kc-tooltip-text">{msg("restartLoginTooltip")}</span>
-                                    </div>
-                                </a>
-                            </div>
-                        );
+        <Box
+            sx={{
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                py: 4,
+                px: 2
+            }}
+        >
+            {isTestEnvironment && (
+                <Chip
+                    icon={<WarningAmberIcon />}
+                    label="ENTORNO DE TEST"
+                    sx={{
+                        mb: 2,
+                        backgroundColor: "#e65100",
+                        color: "white",
+                        fontWeight: 700,
+                        letterSpacing: "0.6px",
+                        fontSize: "0.75rem",
+                        "& .MuiChip-icon": { color: "white" }
+                    }}
+                />
+            )}
 
-                        if (displayRequiredFields) {
-                            return (
-                                <div className={kcClsx("kcContentWrapperClass")}>
-                                    <div className={clsx(kcClsx("kcLabelWrapperClass"), "subtitle")}>
-                                        <span className="subtitle">
-                                            <span className="required">*</span>
-                                            {msg("requiredFields")}
-                                        </span>
-                                    </div>
-                                    <div className="col-md-10">{node}</div>
-                                </div>
-                            );
-                        }
+            <Paper
+                elevation={0}
+                sx={{
+                    width: "100%",
+                    maxWidth: 440,
+                    borderRadius: 3,
+                    overflow: "hidden",
+                    backgroundColor: "rgba(15, 15, 15, 0.88)",
+                    backdropFilter: "blur(16px)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)"
+                }}
+            >
+                {/* Card header */}
+                <Box
+                    sx={{
+                        px: 4,
+                        pt: 3,
+                        pb: 2.5,
+                        borderBottom: "1px solid rgba(255, 255, 255, 0.06)"
+                    }}
+                >
+                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Typography
+                            variant="subtitle2"
+                            fontWeight={700}
+                            color="text.secondary"
+                            letterSpacing={0.5}
+                            sx={{ textTransform: "uppercase", fontSize: "0.7rem" }}
+                        >
+                            {realm.displayName ?? realm.name}
+                        </Typography>
 
-                        return node;
-                    })()}
-                </header>
-                <div id="kc-content">
-                    <div id="kc-content-wrapper">
-                        {/* App-initiated actions should not see warning messages about the need to complete the action during login. */}
-                        {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
-                            <div
-                                className={clsx(
-                                    `alert-${message.type}`,
-                                    kcClsx("kcAlertClass"),
-                                    `pf-m-${message?.type === "error" ? "danger" : message.type}`
-                                )}
+                        {enabledLanguages.length > 1 && (
+                            <Select
+                                value={currentLanguage.languageTag}
+                                onChange={handleLanguageChange}
+                                size="small"
+                                variant="outlined"
+                                sx={{
+                                    fontSize: "0.75rem",
+                                    "& .MuiSelect-select": { py: 0.5, pl: 1.5, pr: "28px !important" },
+                                    "& .MuiOutlinedInput-notchedOutline": {
+                                        borderColor: "rgba(255,255,255,0.12)"
+                                    },
+                                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                                        borderColor: "rgba(255,255,255,0.25)"
+                                    }
+                                }}
                             >
-                                <div className="pf-c-alert__icon">
-                                    {message.type === "success" && <span className={kcClsx("kcFeedbackSuccessIcon")}></span>}
-                                    {message.type === "warning" && <span className={kcClsx("kcFeedbackWarningIcon")}></span>}
-                                    {message.type === "error" && <span className={kcClsx("kcFeedbackErrorIcon")}></span>}
-                                    {message.type === "info" && <span className={kcClsx("kcFeedbackInfoIcon")}></span>}
-                                </div>
-                                <span
-                                    className={kcClsx("kcAlertTitleClass")}
-                                    dangerouslySetInnerHTML={{
-                                        __html: kcSanitize(message.summary)
-                                    }}
-                                />
-                            </div>
+                                {enabledLanguages.map(({ languageTag, label }) => (
+                                    <MenuItem key={languageTag} value={languageTag} sx={{ fontSize: "0.85rem" }}>
+                                        {label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
                         )}
-                        {children}
-                        {auth !== undefined && auth.showTryAnotherWayLink && (
+                    </Stack>
+                </Box>
+
+                {/* Card content */}
+                <Box sx={{ px: 4, pt: 3.5, pb: 4 }}>
+                    {/* Page title / username display */}
+                    <Box sx={{ mb: 3 }}>
+                        {!(auth !== undefined && auth.showUsername && !auth.showResetCredentials) ? (
+                            <>
+                                <Typography variant="h5" fontWeight={600} color="text.primary" sx={{ lineHeight: 1.2 }}>
+                                    {headerNode}
+                                </Typography>
+                                {displayRequiredFields && (
+                                    <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
+                                        <Box component="span" sx={{ color: "error.main" }}>*</Box>{" "}
+                                        {msg("requiredFields")}
+                                    </Typography>
+                                )}
+                            </>
+                        ) : (
+                            <Stack direction="row" alignItems="center" spacing={1.5}>
+                                <Typography variant="body1" color="text.secondary" fontWeight={500} sx={{ flex: 1 }}>
+                                    {auth.attemptedUsername}
+                                </Typography>
+                                <Button
+                                    component="a"
+                                    href={url.loginRestartFlowUrl}
+                                    variant="text"
+                                    size="small"
+                                    aria-label={msgStr("restartLoginTooltip")}
+                                    sx={{ textTransform: "none", fontSize: "0.75rem", minWidth: "auto", p: "4px 8px" }}
+                                >
+                                    {msg("restartLoginTooltip")}
+                                </Button>
+                            </Stack>
+                        )}
+                    </Box>
+
+                    {/* Alert messages */}
+                    {displayMessage && message !== undefined && (message.type !== "warning" || !isAppInitiatedAction) && (
+                        <Alert
+                            severity={message.type === "error" ? "error" : message.type}
+                            sx={{ mb: 2.5 }}
+                        >
+                            <span dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
+                        </Alert>
+                    )}
+
+                    {/* Page content */}
+                    {children}
+
+                    {/* Try another way */}
+                    {auth !== undefined && auth.showTryAnotherWayLink && (
+                        <Box sx={{ mt: 2.5, textAlign: "center" }}>
                             <form id="kc-select-try-another-way-form" action={url.loginAction} method="post">
-                                <div className={kcClsx("kcFormGroupClass")}>
-                                    <input type="hidden" name="tryAnotherWay" value="on" />
-                                    <a
-                                        href="#"
-                                        id="try-another-way"
-                                        onClick={() => {
-                                            document.forms["kc-select-try-another-way-form" as never].submit();
-                                            return false;
-                                        }}
-                                    >
-                                        {msg("doTryAnotherWay")}
-                                    </a>
-                                </div>
+                                <input type="hidden" name="tryAnotherWay" value="on" />
+                                <Button
+                                    variant="text"
+                                    size="small"
+                                    sx={{ textTransform: "none" }}
+                                    onClick={() => {
+                                        (document.getElementById("kc-select-try-another-way-form") as HTMLFormElement)?.submit();
+                                        return false;
+                                    }}
+                                >
+                                    {msg("doTryAnotherWay")}
+                                </Button>
                             </form>
-                        )}
-                        {socialProvidersNode}
-                        {displayInfo && (
-                            <div id="kc-info" className={kcClsx("kcSignUpClass")}>
-                                <div id="kc-info-wrapper" className={kcClsx("kcInfoAreaWrapperClass")}>
-                                    {infoNode}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </Box>
+                    )}
+
+                    {/* Social providers */}
+                    {socialProvidersNode}
+
+                    {/* Registration / info */}
+                    {displayInfo && (
+                        <Box
+                            sx={{
+                                mt: 3,
+                                pt: 3,
+                                borderTop: "1px solid rgba(255, 255, 255, 0.06)",
+                                textAlign: "center"
+                            }}
+                        >
+                            {infoNode}
+                        </Box>
+                    )}
+                </Box>
+            </Paper>
+        </Box>
     );
 }

@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(gcloud container clusters list --project=microservices-hefame --format=json 2>&1)",
+      "PowerShell(Get-ChildItem \"C:\\\\SpringBoot\\\\cd\" -Depth 2 | Where-Object { $_.Name -match \"kustomiz|keycloak|infraestructura|hfm\" } | Select-Object FullName)",
+      "Bash(ls /mnt/c/SpringBoot/)",
+      "Bash(kubectl get *)",
+      "Bash(kubectl config *)",
+      "Bash(python3 -m json.tool)",
+      "WebFetch(domain:github.com)",
+      "Bash(find C:/SpringBoot/cd -type f | sort)",
+      "Bash(Get-ChildItem -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-List)",
+      "Bash(npm show *)",
+      "Bash(npm outdated *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git config *)",
+      "Bash(git fetch *)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(dir /s /b)",
+      "PowerShell(head -150)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
